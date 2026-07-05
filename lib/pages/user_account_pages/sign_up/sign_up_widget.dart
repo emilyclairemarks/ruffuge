@@ -402,7 +402,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                           IndividualemailandpasswordWidget.routeName,
                           queryParameters: {
                             'usertype': serializeParam(
-                              'usertype = \"individual\"',
+                              'foster',
                               ParamType.String,
                             ),
                           }.withoutNulls,
@@ -447,7 +447,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                 IndividualemailandpasswordWidget.routeName,
                                 queryParameters: {
                                   'usertype': serializeParam(
-                                    'usertype = \"individual\"',
+                                    'foster',
                                     ParamType.String,
                                   ),
                                 }.withoutNulls,
@@ -601,7 +601,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                           IndividualemailandpasswordWidget.routeName,
                           queryParameters: {
                             'usertype': serializeParam(
-                              'usertype = \"individual\"',
+                              'adopter',
                               ParamType.String,
                             ),
                           }.withoutNulls,
@@ -646,7 +646,7 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                 IndividualemailandpasswordWidget.routeName,
                                 queryParameters: {
                                   'usertype': serializeParam(
-                                    'usertype = \"individual\"',
+                                    'adopter',
                                     ParamType.String,
                                   ),
                                 }.withoutNulls,

@@ -1,3 +1,5 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -14,7 +16,7 @@ class IndividualaccountinfoWidget extends StatefulWidget {
   const IndividualaccountinfoWidget({
     super.key,
     String? usertype,
-  }) : this.usertype = usertype ?? 'usertype = \"individual\"';
+  }) : this.usertype = usertype ?? 'adopter';
 
   final String usertype;
 
@@ -33,6 +35,17 @@ class _IndividualaccountinfoWidgetState
   final scaffoldKey = GlobalKey<ScaffoldState>();
   late StreamSubscription<bool> _keyboardVisibilitySubscription;
   bool _isKeyboardVisible = false;
+
+  String get _selectedAccountType {
+    final usertype = widget.usertype.toLowerCase();
+    if (usertype.contains('foster')) {
+      return 'foster';
+    }
+    if (usertype.contains('adopter') || usertype.contains('individual')) {
+      return 'adopter';
+    }
+    return 'adopter';
+  }
 
   @override
   void initState() {
@@ -943,8 +956,38 @@ class _IndividualaccountinfoWidgetState
                           padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 12.0, 16.0, 24.0),
                           child: FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              final fullName =
+                                  _model.nameofRescueTextController.text.trim();
+                              final nameParts = fullName
+                                  .split(' ')
+                                  .where((part) => part.isNotEmpty)
+                                  .toList();
+                              final firstName = nameParts.isNotEmpty
+                                  ? nameParts.first
+                                  : '';
+                              final lastName = nameParts.length > 1
+                                  ? nameParts.sublist(1).join(' ')
+                                  : '';
+
+                              await currentUserReference
+                                  ?.update(createUsersRecordData(
+                                accountType: _selectedAccountType,
+                                accountStatus: 'active',
+                                onboardingComplete: true,
+                                firstName: firstName,
+                                lastName: lastName,
+                                displayName: fullName,
+                                phoneNumber:
+                                    _model.textController2.text.trim(),
+                                zipCode: _model.textController3.text.trim(),
+                                availableToFoster:
+                                    _selectedAccountType == 'foster',
+                                lastUpdated: getCurrentTimestamp,
+                              ));
+
+                              await context
+                                  .goToRoleDashboard(context.mounted);
                             },
                             text: 'Create Account',
                             options: FFButtonOptions(
