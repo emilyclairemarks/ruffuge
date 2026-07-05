@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -77,8 +78,13 @@ class _CreateChatWidgetState extends State<CreateChatWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              StreamBuilder<List<MessageRecord>>(
-                stream: queryMessageRecord(),
+              StreamBuilder<List<ChatRecord>>(
+                stream: queryChatRecord(
+                  queryBuilder: (chatRecord) => chatRecord.where(
+                    'primaryUserId',
+                    isEqualTo: currentUserUid,
+                  ),
+                ),
                 builder: (context, snapshot) {
                   // Customize what your widget looks like when it's loading.
                   if (!snapshot.hasData) {
@@ -94,17 +100,17 @@ class _CreateChatWidgetState extends State<CreateChatWidget> {
                       ),
                     );
                   }
-                  List<MessageRecord> listViewMessageRecordList =
+                  List<ChatRecord> listViewChatRecordList =
                       snapshot.data!;
 
                   return ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
-                    itemCount: listViewMessageRecordList.length,
+                    itemCount: listViewChatRecordList.length,
                     itemBuilder: (context, listViewIndex) {
-                      final listViewMessageRecord =
-                          listViewMessageRecordList[listViewIndex];
+                      final listViewChatRecord =
+                          listViewChatRecordList[listViewIndex];
                       return FFButtonWidget(
                         onPressed: () {
                           print('Button pressed ...');
