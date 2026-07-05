@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -70,61 +69,20 @@ class AppStateNotifier extends ChangeNotifier {
   }
 }
 
-class RoleDashboardWidget extends StatelessWidget {
-  const RoleDashboardWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final uid = AppStateNotifier.instance.user?.uid;
-    if (uid == null || uid.isEmpty) {
-      return SplashPageWidget();
-    }
-
-    final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
-
-    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-      future: userRef.get(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-
-        final accountType =
-            (snapshot.data?.data()?['accountType'] as String? ?? '')
-                .toLowerCase();
-
-        if (accountType == 'rescue' || accountType == 'rescue_admin') {
-          return RescueDashboardWidget(rescueRef: userRef);
-        }
-
-        if (accountType == 'adopter') {
-          return AdopterDogFeedWidget();
-        }
-
-        return UserDashboardWidget();
-      },
-    );
-  }
-}
-
 GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) => appStateNotifier.loggedIn
-          ? RoleDashboardWidget()
+          ? TestDashboardWidget()
           : SplashPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.loggedIn
-              ? RoleDashboardWidget()
+              ? TestDashboardWidget()
               : SplashPageWidget(),
         ),
         FFRoute(
@@ -220,12 +178,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['dogs'],
             ),
           ),
-        ),
-        FFRoute(
-          name: AdopterDogFeedWidget.routeName,
-          path: AdopterDogFeedWidget.routePath,
-          requireAuth: true,
-          builder: (context, params) => AdopterDogFeedWidget(),
         ),
         FFRoute(
           name: RescueCalendarWidget.routeName,
@@ -392,48 +344,6 @@ extension NavParamExtensions on Map<String, String?> {
 }
 
 extension NavigationExtensions on BuildContext {
-  Future<void> goToRoleDashboard(bool mounted) async {
-    if (!mounted) {
-      return;
-    }
-
-    final uid = AppStateNotifier.instance.user?.uid;
-    if (uid == null || uid.isEmpty) {
-      goNamedAuth(SplashPageWidget.routeName, mounted);
-      return;
-    }
-
-    final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
-    final userSnapshot = await userRef.get();
-    if (!this.mounted) {
-      return;
-    }
-
-    final accountType =
-        (userSnapshot.data()?['accountType'] as String? ?? '').toLowerCase();
-
-    if (accountType == 'rescue' || accountType == 'rescue_admin') {
-      goNamedAuth(
-        RescueDashboardWidget.routeName,
-        mounted,
-        queryParameters: {
-          'rescueRef': serializeParam(
-            userRef,
-            ParamType.DocumentReference,
-          ),
-        }.withoutNulls,
-      );
-      return;
-    }
-
-    if (accountType == 'adopter') {
-      goNamedAuth(AdopterDogFeedWidget.routeName, mounted);
-      return;
-    }
-
-    goNamedAuth(UserDashboardWidget.routeName, mounted);
-  }
-
   void goNamedAuth(
     String name,
     bool mounted, {
