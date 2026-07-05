@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1044144613016",
+    "project_id": "ruffuge-846e1",
+    "storage_bucket": "ruffuge-846e1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044144613016:android:97e56ace6a4678ec2552ed",
+        "android_client_info": {
+          "package_name": "com.mycompany.ruffuge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044144613016-2kdr4s10n07037rmt8r586b03qsgbc01.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.ruffuge",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "1044144613016-dokt2mub8tgliqdo5g0kauovva9kpi36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjUI5m9TCXfg33g4xdlR-tf7zpsmlWUwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044144613016-dokt2mub8tgliqdo5g0kauovva9kpi36.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1044144613016-h3416idnmt3pbicgsb4u445t0ho0eg6a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.ruffuge"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
