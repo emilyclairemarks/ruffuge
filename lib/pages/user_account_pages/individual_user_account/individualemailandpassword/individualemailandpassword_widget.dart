@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -15,7 +16,7 @@ class IndividualemailandpasswordWidget extends StatefulWidget {
   const IndividualemailandpasswordWidget({
     super.key,
     String? usertype,
-  }) : this.usertype = usertype ?? 'usertype = \"individual\"';
+  }) : this.usertype = usertype ?? 'adopter';
 
   final String usertype;
 
@@ -35,6 +36,24 @@ class _IndividualemailandpasswordWidgetState
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final animationsMap = <String, AnimationInfo>{};
+
+  String get _selectedAccountType {
+    final usertype = widget.usertype.toLowerCase();
+    if (usertype.contains('foster')) {
+      return 'foster';
+    }
+    if (usertype.contains('adopter') || usertype.contains('individual')) {
+      return 'adopter';
+    }
+    return 'adopter';
+  }
+
+  Future<void> _saveSelectedAccountType(String uid) async {
+    await UsersRecord.collection.doc(uid).update(createUsersRecordData(
+          accountType: _selectedAccountType,
+          accountStatus: 'active',
+        ));
+  }
 
   @override
   void initState() {
@@ -534,11 +553,24 @@ class _IndividualemailandpasswordWidgetState
                                       0.0, 0.0, 0.0, 16.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
+                                      GoRouter.of(context).prepareAuthEvent();
+                                      final user = await authManager
+                                          .createAccountWithEmail(
+                                        context,
+                                        _model.emailAddressTextController.text,
+                                        _model.passwordTextController.text,
+                                      );
+                                      if (user == null) {
+                                        return;
+                                      }
+
+                                      await _saveSelectedAccountType(user.uid);
+
                                       context.pushNamed(
                                         IndividualaccountinfoWidget.routeName,
                                         queryParameters: {
                                           'usertype': serializeParam(
-                                            '',
+                                            _selectedAccountType,
                                             ParamType.String,
                                           ),
                                         }.withoutNulls,
@@ -626,9 +658,10 @@ class _IndividualemailandpasswordWidgetState
                                         return;
                                       }
 
-                                      context.goNamedAuth(
-                                          TestDashboardWidget.routeName,
-                                          context.mounted);
+                                      await _saveSelectedAccountType(user.uid);
+
+                                      await context
+                                          .goToRoleDashboard(context.mounted);
                                     },
                                     text: 'Continue with Google',
                                     icon: FaIcon(
@@ -699,8 +732,10 @@ class _IndividualemailandpasswordWidgetState
                                               return;
                                             }
 
-                                            context.goNamedAuth(
-                                                TestDashboardWidget.routeName,
+                                            await _saveSelectedAccountType(
+                                                user.uid);
+
+                                            await context.goToRoleDashboard(
                                                 context.mounted);
                                           },
                                           text: 'Continue with Apple',

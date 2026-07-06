@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -198,34 +199,48 @@ class _UserDashboardWidgetState extends State<UserDashboardWidget> {
                                                                           10.0,
                                                                           0.0,
                                                                           0.0),
-                                                              child: Text(
-                                                                '26',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleLarge
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .interTight(
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .titleLarge
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .titleLarge
-                                                                            .fontStyle,
-                                                                      ),
-                                                                      fontSize:
-                                                                          35.0,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleLarge
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleLarge
-                                                                          .fontStyle,
-                                                                    ),
+                                                              child: FutureBuilder<int>(
+                                                                future: queryDogsRecordCount(
+                                                                  queryBuilder: (dogsRecord) =>
+                                                                      dogsRecord.where(
+                                                                    'adoptionStatus',
+                                                                    isEqualTo:
+                                                                        'available',
+                                                                  ),
+                                                                ),
+                                                                builder: (context, snapshot) {
+                                                                  return Text(
+                                                                    snapshot.data
+                                                                            ?.toString() ??
+                                                                        '--',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleLarge
+                                                                        .override(
+                                                                          font: GoogleFonts
+                                                                              .interTight(
+                                                                            fontWeight: FlutterFlowTheme.of(context)
+                                                                                .titleLarge
+                                                                                .fontWeight,
+                                                                            fontStyle: FlutterFlowTheme.of(context)
+                                                                                .titleLarge
+                                                                                .fontStyle,
+                                                                          ),
+                                                                          fontSize:
+                                                                              35.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(
+                                                                                  context)
+                                                                              .titleLarge
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(
+                                                                                  context)
+                                                                              .titleLarge
+                                                                              .fontStyle,
+                                                                        ),
+                                                                  );
+                                                                },
                                                               ),
                                                             ),
                                                             Align(

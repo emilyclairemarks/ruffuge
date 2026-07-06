@@ -1798,6 +1798,12 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                       species: '',
                                                       primaryPhoto: '',
                                                       color: '',
+                                                      adoptionStatus:
+                                                          'available',
+                                                      visibility: 'public',
+                                                      organizationID:
+                                                          currentUserUid,
+                                                      uid: currentUserUid,
                                                       goodWithDogs:
                                                           buttonDogsRecord
                                                               .goodWithDogs,
@@ -1838,6 +1844,14 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                               species: '',
                                                               primaryPhoto: '',
                                                               color: '',
+                                                              adoptionStatus:
+                                                                  'available',
+                                                              visibility:
+                                                                  'public',
+                                                              organizationID:
+                                                                  currentUserUid,
+                                                              uid:
+                                                                  currentUserUid,
                                                               goodWithDogs:
                                                                   buttonDogsRecord
                                                                       .goodWithDogs,
