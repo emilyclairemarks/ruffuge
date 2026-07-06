@@ -460,16 +460,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                     return;
                                   }
 
-                                  context.pushNamedAuth(
-                                    RescueDashboardWidget.routeName,
-                                    context.mounted,
-                                    queryParameters: {
-                                      'rescueRef': serializeParam(
-                                        currentUserReference,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                  );
+                                  await context
+                                      .goToRoleDashboard(context.mounted);
                                 },
                                 text: 'Sign In',
                                 options: FFButtonOptions(
@@ -552,9 +544,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                     return;
                                   }
 
-                                  context.goNamedAuth(
-                                      TestDashboardWidget.routeName,
-                                      context.mounted);
+                                  await context
+                                      .goToRoleDashboard(context.mounted);
                                 },
                                 text: 'Continue with Google',
                                 icon: FaIcon(
@@ -620,9 +611,8 @@ class _LoginWidgetState extends State<LoginWidget>
                                           return;
                                         }
 
-                                        context.goNamedAuth(
-                                            TestDashboardWidget.routeName,
-                                            context.mounted);
+                                        await context
+                                            .goToRoleDashboard(context.mounted);
                                       },
                                       text: 'Continue with Apple',
                                       icon: FaIcon(

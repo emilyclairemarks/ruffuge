@@ -212,32 +212,46 @@ class _TestDashboardWidgetState extends State<TestDashboardWidget> {
                                                                             10.0,
                                                                             0.0,
                                                                             0.0),
-                                                                child: Text(
-                                                                  '26',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleLarge
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .interTight(
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .titleLarge
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .titleLarge
-                                                                              .fontStyle,
-                                                                        ),
-                                                                        fontSize:
-                                                                            35.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .titleLarge
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .titleLarge
-                                                                            .fontStyle,
-                                                                      ),
+                                                                child: FutureBuilder<int>(
+                                                                  future: queryDogsRecordCount(
+                                                                    queryBuilder: (dogsRecord) =>
+                                                                        dogsRecord.where(
+                                                                      'adoptionStatus',
+                                                                      isEqualTo:
+                                                                          'available',
+                                                                    ),
+                                                                  ),
+                                                                  builder: (context, snapshot) {
+                                                                    return Text(
+                                                                      snapshot.data
+                                                                              ?.toString() ??
+                                                                          '--',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleLarge
+                                                                          .override(
+                                                                            font: GoogleFonts
+                                                                                .interTight(
+                                                                              fontWeight: FlutterFlowTheme.of(context)
+                                                                                  .titleLarge
+                                                                                  .fontWeight,
+                                                                              fontStyle: FlutterFlowTheme.of(context)
+                                                                                  .titleLarge
+                                                                                  .fontStyle,
+                                                                            ),
+                                                                            fontSize:
+                                                                                35.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight: FlutterFlowTheme.of(context)
+                                                                                .titleLarge
+                                                                                .fontWeight,
+                                                                            fontStyle: FlutterFlowTheme.of(context)
+                                                                                .titleLarge
+                                                                                .fontStyle,
+                                                                          ),
+                                                                    );
+                                                                  },
                                                                 ),
                                                               ),
                                                               Align(

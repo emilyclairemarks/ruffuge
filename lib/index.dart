@@ -62,3 +62,5 @@ export '/pages/dogs/available_dog_list_copy/available_dog_list_copy_widget.dart'
     show AvailableDogListCopyWidget;
 export '/pages/user_account_pages/individual_user_account/test_dashboard/test_dashboard_widget.dart'
     show TestDashboardWidget;
+export '/adopter_dog_feed/adopter_dog_feed_widget.dart'
+    show AdopterDogFeedWidget;

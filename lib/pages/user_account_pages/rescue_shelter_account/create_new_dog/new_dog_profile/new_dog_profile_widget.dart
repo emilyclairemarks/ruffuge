@@ -18,10 +18,7 @@ export 'new_dog_profile_model.dart';
 /// It should include the dog's name, breed, age, weight, medical history,
 /// bio, and a place to input pictures and videos of the dog
 class NewDogProfileWidget extends StatefulWidget {
-  const NewDogProfileWidget({
-    super.key,
-    required this.userRef,
-  });
+  const NewDogProfileWidget({super.key, required this.userRef});
 
   /// A reference to the current user
   final DocumentReference? userRef;
@@ -70,10 +67,8 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UsersRecord>>(
-      stream: queryUsersRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<UsersRecord>(
+      stream: UsersRecord.getDocument(widget.userRef ?? currentUserReference!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -92,14 +87,7 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
             ),
           );
         }
-        List<UsersRecord> newDogProfileUsersRecordList = snapshot.data!;
-        // Return an empty Container when the item does not exist.
-        if (snapshot.data!.isEmpty) {
-          return Container();
-        }
-        final newDogProfileUsersRecord = newDogProfileUsersRecordList.isNotEmpty
-            ? newDogProfileUsersRecordList.first
-            : null;
+        final newDogProfileUsersRecord = snapshot.data!;
 
         return GestureDetector(
           onTap: () {
@@ -139,7 +127,11 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                     children: [
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 120.0, 16.0, 0.0),
+                                          16.0,
+                                          120.0,
+                                          16.0,
+                                          0.0,
+                                        ),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
@@ -152,29 +144,32 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                               children: [
                                                 Text(
                                                   'Basic Information',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .titleMedium
-                                                      .override(
+                                                  style:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).titleMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .titleMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 18.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .titleMedium
                                                                 .fontStyle,
                                                       ),
@@ -192,109 +187,124 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                   obscureText: false,
                                                   decoration: InputDecoration(
                                                     hintText: 'Dog\'s Name',
-                                                    hintStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font:
-                                                              GoogleFonts.inter(
+                                                    hintStyle:
+                                                        FlutterFlowTheme.of(
+                                                          context,
+                                                        ).bodyMedium.override(
+                                                          font: GoogleFonts.inter(
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             fontStyle:
                                                                 FlutterFlowTheme.of(
-                                                                        context)
+                                                                      context,
+                                                                    )
                                                                     .bodyMedium
                                                                     .fontStyle,
                                                           ),
-                                                          color:
-                                                              Color(0xFF3980D2),
+                                                          color: Color(
+                                                            0xFF3980D2,
+                                                          ),
                                                           fontSize: 16.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
                                                     enabledBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFFDFEDEC),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
-                                                    ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0xFFDFEDEC,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0xFF06D5CD,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
+                                                    errorBorder: OutlineInputBorder(
                                                       borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFF06D5CD),
+                                                        color: Color(
+                                                          0x00000000,
+                                                        ),
                                                         width: 1.0,
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              16.0),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
+                                                            16.0,
+                                                          ),
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
-                                                    ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0x00000000,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
                                                     filled: true,
                                                     fillColor: Colors.white,
                                                     contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16.0,
-                                                                12.0,
-                                                                16.0,
-                                                                12.0),
+                                                        EdgeInsetsDirectional.fromSTEB(
+                                                          16.0,
+                                                          12.0,
+                                                          16.0,
+                                                          12.0,
+                                                        ),
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
+                                                  style:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            Color(0xFF3980D2),
+                                                        color: Color(
+                                                          0xFF3980D2,
+                                                        ),
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
@@ -305,17 +315,18 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                       .asValidator(context),
                                                   inputFormatters: [
                                                     if (!isAndroid && !isiOS)
-                                                      TextInputFormatter
-                                                          .withFunction(
-                                                              (oldValue,
-                                                                  newValue) {
+                                                      TextInputFormatter.withFunction((
+                                                        oldValue,
+                                                        newValue,
+                                                      ) {
                                                         return TextEditingValue(
                                                           selection: newValue
                                                               .selection,
                                                           text: newValue.text
                                                               .toCapitalization(
-                                                                  TextCapitalization
-                                                                      .words),
+                                                                TextCapitalization
+                                                                    .words,
+                                                              ),
                                                         );
                                                       }),
                                                   ],
@@ -334,109 +345,124 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                   decoration: InputDecoration(
                                                     hintText:
                                                         'Breed (e.g., Golden Retriever, Mixed)',
-                                                    hintStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font:
-                                                              GoogleFonts.inter(
+                                                    hintStyle:
+                                                        FlutterFlowTheme.of(
+                                                          context,
+                                                        ).bodyMedium.override(
+                                                          font: GoogleFonts.inter(
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             fontStyle:
                                                                 FlutterFlowTheme.of(
-                                                                        context)
+                                                                      context,
+                                                                    )
                                                                     .bodyMedium
                                                                     .fontStyle,
                                                           ),
-                                                          color:
-                                                              Color(0xFF3980D2),
+                                                          color: Color(
+                                                            0xFF3980D2,
+                                                          ),
                                                           fontSize: 16.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
                                                     enabledBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFFDFEDEC),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
-                                                    ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0xFFDFEDEC,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0xFF06D5CD,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
+                                                    errorBorder: OutlineInputBorder(
                                                       borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFF06D5CD),
+                                                        color: Color(
+                                                          0x00000000,
+                                                        ),
                                                         width: 1.0,
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              16.0),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
+                                                            16.0,
+                                                          ),
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
-                                                    ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0x00000000,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
                                                     filled: true,
                                                     fillColor: Colors.white,
                                                     contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16.0,
-                                                                12.0,
-                                                                16.0,
-                                                                12.0),
+                                                        EdgeInsetsDirectional.fromSTEB(
+                                                          16.0,
+                                                          12.0,
+                                                          16.0,
+                                                          12.0,
+                                                        ),
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
+                                                  style:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            Color(0xFF101518),
+                                                        color: Color(
+                                                          0xFF101518,
+                                                        ),
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
@@ -445,17 +471,18 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                       .asValidator(context),
                                                   inputFormatters: [
                                                     if (!isAndroid && !isiOS)
-                                                      TextInputFormatter
-                                                          .withFunction(
-                                                              (oldValue,
-                                                                  newValue) {
+                                                      TextInputFormatter.withFunction((
+                                                        oldValue,
+                                                        newValue,
+                                                      ) {
                                                         return TextEditingValue(
                                                           selection: newValue
                                                               .selection,
                                                           text: newValue.text
                                                               .toCapitalization(
-                                                                  TextCapitalization
-                                                                      .words),
+                                                                TextCapitalization
+                                                                    .words,
+                                                              ),
                                                         );
                                                       }),
                                                   ],
@@ -475,118 +502,123 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                             TextInputAction
                                                                 .next,
                                                         obscureText: false,
-                                                        decoration:
-                                                            InputDecoration(
+                                                        decoration: InputDecoration(
                                                           hintText:
                                                               'Age (years)',
-                                                          hintStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .inter(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    color: Color(
-                                                                        0xFF3980D2),
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
+                                                          hintStyle: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                            font: GoogleFonts.inter(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                        context,
+                                                                      )
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                            color: Color(
+                                                              0xFF3980D2,
+                                                            ),
+                                                            fontSize: 16.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                      context,
+                                                                    )
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
                                                           enabledBorder:
                                                               OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFDFEDEC),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16.0),
-                                                          ),
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                      color: Color(
+                                                                        0xFFDFEDEC,
+                                                                      ),
+                                                                      width:
+                                                                          1.0,
+                                                                    ),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      16.0,
+                                                                    ),
+                                                              ),
                                                           focusedBorder:
                                                               OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                      color: Color(
+                                                                        0xFF06D5CD,
+                                                                      ),
+                                                                      width:
+                                                                          1.0,
+                                                                    ),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      16.0,
+                                                                    ),
+                                                              ),
+                                                          errorBorder: OutlineInputBorder(
                                                             borderSide:
                                                                 BorderSide(
-                                                              color: Color(
-                                                                  0xFF06D5CD),
-                                                              width: 1.0,
-                                                            ),
+                                                                  color: Color(
+                                                                    0x00000000,
+                                                                  ),
+                                                                  width: 1.0,
+                                                                ),
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16.0),
-                                                          ),
-                                                          errorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0x00000000),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16.0),
+                                                                BorderRadius.circular(
+                                                                  16.0,
+                                                                ),
                                                           ),
                                                           focusedErrorBorder:
                                                               OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0x00000000),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16.0),
-                                                          ),
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                      color: Color(
+                                                                        0x00000000,
+                                                                      ),
+                                                                      width:
+                                                                          1.0,
+                                                                    ),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      16.0,
+                                                                    ),
+                                                              ),
                                                           filled: true,
                                                           fillColor:
                                                               Colors.white,
                                                           contentPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      12.0,
-                                                                      16.0,
-                                                                      12.0),
+                                                              EdgeInsetsDirectional.fromSTEB(
+                                                                16.0,
+                                                                12.0,
+                                                                16.0,
+                                                                12.0,
+                                                              ),
                                                         ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts
-                                                                  .inter(
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).bodyMedium.override(
+                                                              font: GoogleFonts.inter(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .normal,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
+                                                                fontStyle:
+                                                                    FlutterFlowTheme.of(
+                                                                          context,
+                                                                        )
+                                                                        .bodyMedium
+                                                                        .fontStyle,
                                                               ),
                                                               color: Color(
-                                                                  0xFF101518),
+                                                                0xFF101518,
+                                                              ),
                                                               fontSize: 16.0,
                                                               letterSpacing:
                                                                   0.0,
@@ -595,7 +627,8 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                                       .normal,
                                                               fontStyle:
                                                                   FlutterFlowTheme.of(
-                                                                          context)
+                                                                        context,
+                                                                      )
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                             ),
@@ -605,7 +638,8 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                         validator: _model
                                                             .ageTextControllerValidator
                                                             .asValidator(
-                                                                context),
+                                                              context,
+                                                            ),
                                                       ),
                                                     ),
                                                     Expanded(
@@ -619,118 +653,123 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                             TextInputAction
                                                                 .next,
                                                         obscureText: false,
-                                                        decoration:
-                                                            InputDecoration(
+                                                        decoration: InputDecoration(
                                                           hintText:
                                                               'Weight (lbs)',
-                                                          hintStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    font: GoogleFonts
-                                                                        .inter(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                                    color: Color(
-                                                                        0xFF3980D2),
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
+                                                          hintStyle: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                            font: GoogleFonts.inter(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                        context,
+                                                                      )
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                            color: Color(
+                                                              0xFF3980D2,
+                                                            ),
+                                                            fontSize: 16.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                      context,
+                                                                    )
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
                                                           enabledBorder:
                                                               OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFDFEDEC),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16.0),
-                                                          ),
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                      color: Color(
+                                                                        0xFFDFEDEC,
+                                                                      ),
+                                                                      width:
+                                                                          1.0,
+                                                                    ),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      16.0,
+                                                                    ),
+                                                              ),
                                                           focusedBorder:
                                                               OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                      color: Color(
+                                                                        0xFF06D5CD,
+                                                                      ),
+                                                                      width:
+                                                                          1.0,
+                                                                    ),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      16.0,
+                                                                    ),
+                                                              ),
+                                                          errorBorder: OutlineInputBorder(
                                                             borderSide:
                                                                 BorderSide(
-                                                              color: Color(
-                                                                  0xFF06D5CD),
-                                                              width: 1.0,
-                                                            ),
+                                                                  color: Color(
+                                                                    0x00000000,
+                                                                  ),
+                                                                  width: 1.0,
+                                                                ),
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16.0),
-                                                          ),
-                                                          errorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0x00000000),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16.0),
+                                                                BorderRadius.circular(
+                                                                  16.0,
+                                                                ),
                                                           ),
                                                           focusedErrorBorder:
                                                               OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0x00000000),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        16.0),
-                                                          ),
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                      color: Color(
+                                                                        0x00000000,
+                                                                      ),
+                                                                      width:
+                                                                          1.0,
+                                                                    ),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      16.0,
+                                                                    ),
+                                                              ),
                                                           filled: true,
                                                           fillColor:
                                                               Colors.white,
                                                           contentPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      12.0,
-                                                                      16.0,
-                                                                      12.0),
+                                                              EdgeInsetsDirectional.fromSTEB(
+                                                                16.0,
+                                                                12.0,
+                                                                16.0,
+                                                                12.0,
+                                                              ),
                                                         ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              font: GoogleFonts
-                                                                  .inter(
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).bodyMedium.override(
+                                                              font: GoogleFonts.inter(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .normal,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
+                                                                fontStyle:
+                                                                    FlutterFlowTheme.of(
+                                                                          context,
+                                                                        )
+                                                                        .bodyMedium
+                                                                        .fontStyle,
                                                               ),
                                                               color: Color(
-                                                                  0xFF101518),
+                                                                0xFF101518,
+                                                              ),
                                                               fontSize: 16.0,
                                                               letterSpacing:
                                                                   0.0,
@@ -739,7 +778,8 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                                       .normal,
                                                               fontStyle:
                                                                   FlutterFlowTheme.of(
-                                                                          context)
+                                                                        context,
+                                                                      )
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                             ),
@@ -749,52 +789,62 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                         validator: _model
                                                             .weightTextControllerValidator
                                                             .asValidator(
-                                                                context),
+                                                              context,
+                                                            ),
                                                       ),
                                                     ),
-                                                  ].divide(
-                                                      SizedBox(width: 12.0)),
+                                                  ].divide(SizedBox(width: 12.0)),
                                                 ),
                                                 FlutterFlowDropDown<String>(
-                                                  controller: _model
-                                                          .genderValueController ??=
-                                                      FormFieldController<
-                                                          String>(
-                                                    _model.genderValue ??= '',
-                                                  ),
-                                                  options: List<String>.from(
-                                                      ['Male', 'Female']),
+                                                  controller:
+                                                      _model.genderValueController ??=
+                                                          FormFieldController<
+                                                            String
+                                                          >(
+                                                            _model.genderValue ??=
+                                                                '',
+                                                          ),
+                                                  options: List<String>.from([
+                                                    'Male',
+                                                    'Female',
+                                                  ]),
                                                   optionLabels: [
                                                     'Male',
-                                                    'Female'
+                                                    'Female',
                                                   ],
                                                   onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                          .genderValue = val),
+                                                      safeSetState(
+                                                        () =>
+                                                            _model.genderValue =
+                                                                val,
+                                                      ),
                                                   width: double.infinity,
                                                   height: 50.0,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            Color(0xFF3980D2),
+                                                        color: Color(
+                                                          0xFF3980D2,
+                                                        ),
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
@@ -807,13 +857,18 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                   ),
                                                   fillColor: Colors.white,
                                                   elevation: 0.0,
-                                                  borderColor:
-                                                      Color(0xFFDFEDEC),
+                                                  borderColor: Color(
+                                                    0xFFDFEDEC,
+                                                  ),
                                                   borderWidth: 1.0,
                                                   borderRadius: 16.0,
-                                                  margin: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          16.0, 0.0, 16.0, 0.0),
+                                                  margin:
+                                                      EdgeInsetsDirectional.fromSTEB(
+                                                        16.0,
+                                                        0.0,
+                                                        16.0,
+                                                        0.0,
+                                                      ),
                                                   hidesUnderline: true,
                                                   isSearchable: false,
                                                   isMultiSelect: false,
@@ -827,469 +882,493 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                               children: [
                                                 FlutterFlowCheckboxGroup(
                                                   options: ['Spayed/Neutered'],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .checkboxGroupValues1 =
-                                                          val),
-                                                  controller: _model
-                                                          .checkboxGroupValueController1 ??=
-                                                      FormFieldController<
-                                                          List<String>>(
-                                                    [],
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.checkboxGroupValues1 =
+                                                            val,
                                                   ),
+                                                  controller:
+                                                      _model.checkboxGroupValueController1 ??=
+                                                          FormFieldController<
+                                                            List<String>
+                                                          >([]),
                                                   activeColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
+                                                        context,
+                                                      ).secondaryBackground,
                                                   checkColor: Color(0xFF3980D2),
                                                   checkboxBorderColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                        context,
+                                                      ).secondaryBackground,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                  unselectedTextStyle:
-                                                      TextStyle(
+                                                  unselectedTextStyle: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                      context,
+                                                    ).secondaryBackground,
                                                     fontSize: 16.0,
                                                   ),
-                                                  initialized: _model
+                                                  initialized:
+                                                      _model
                                                           .checkboxGroupValues1 !=
                                                       null,
                                                 ),
                                                 FlutterFlowCheckboxGroup(
                                                   options: ['House Trained'],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .checkboxGroupValues2 =
-                                                          val),
-                                                  controller: _model
-                                                          .checkboxGroupValueController2 ??=
-                                                      FormFieldController<
-                                                          List<String>>(
-                                                    [],
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.checkboxGroupValues2 =
+                                                            val,
                                                   ),
+                                                  controller:
+                                                      _model.checkboxGroupValueController2 ??=
+                                                          FormFieldController<
+                                                            List<String>
+                                                          >([]),
                                                   activeColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
+                                                        context,
+                                                      ).secondaryBackground,
                                                   checkColor: Color(0xFF3980D2),
                                                   checkboxBorderColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                        context,
+                                                      ).secondaryBackground,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                  unselectedTextStyle:
-                                                      TextStyle(
+                                                  unselectedTextStyle: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                      context,
+                                                    ).secondaryBackground,
                                                     fontSize: 16.0,
                                                   ),
-                                                  initialized: _model
+                                                  initialized:
+                                                      _model
                                                           .checkboxGroupValues2 !=
                                                       null,
                                                 ),
                                                 FlutterFlowCheckboxGroup(
                                                   options: ['Crate Trained'],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .checkboxGroupValues3 =
-                                                          val),
-                                                  controller: _model
-                                                          .checkboxGroupValueController3 ??=
-                                                      FormFieldController<
-                                                          List<String>>(
-                                                    [],
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.checkboxGroupValues3 =
+                                                            val,
                                                   ),
+                                                  controller:
+                                                      _model.checkboxGroupValueController3 ??=
+                                                          FormFieldController<
+                                                            List<String>
+                                                          >([]),
                                                   activeColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
+                                                        context,
+                                                      ).secondaryBackground,
                                                   checkColor: Color(0xFF3980D2),
                                                   checkboxBorderColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                        context,
+                                                      ).secondaryBackground,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                  unselectedTextStyle:
-                                                      TextStyle(
+                                                  unselectedTextStyle: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                      context,
+                                                    ).secondaryBackground,
                                                     fontSize: 16.0,
                                                   ),
-                                                  initialized: _model
+                                                  initialized:
+                                                      _model
                                                           .checkboxGroupValues3 !=
                                                       null,
                                                 ),
                                                 FlutterFlowCheckboxGroup(
                                                   options: [
-                                                    'Up to date on vaccinations'
+                                                    'Up to date on vaccinations',
                                                   ],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .checkboxGroupValues4 =
-                                                          val),
-                                                  controller: _model
-                                                          .checkboxGroupValueController4 ??=
-                                                      FormFieldController<
-                                                          List<String>>(
-                                                    [],
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.checkboxGroupValues4 =
+                                                            val,
                                                   ),
+                                                  controller:
+                                                      _model.checkboxGroupValueController4 ??=
+                                                          FormFieldController<
+                                                            List<String>
+                                                          >([]),
                                                   activeColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
+                                                        context,
+                                                      ).secondaryBackground,
                                                   checkColor: Color(0xFF3980D2),
                                                   checkboxBorderColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                        context,
+                                                      ).secondaryBackground,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                  unselectedTextStyle:
-                                                      TextStyle(
+                                                  unselectedTextStyle: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                      context,
+                                                    ).secondaryBackground,
                                                     fontSize: 16.0,
                                                   ),
-                                                  initialized: _model
+                                                  initialized:
+                                                      _model
                                                           .checkboxGroupValues4 !=
                                                       null,
                                                 ),
                                                 FlutterFlowCheckboxGroup(
                                                   options: ['Microchipped'],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .checkboxGroupValues5 =
-                                                          val),
-                                                  controller: _model
-                                                          .checkboxGroupValueController5 ??=
-                                                      FormFieldController<
-                                                          List<String>>(
-                                                    [],
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.checkboxGroupValues5 =
+                                                            val,
                                                   ),
+                                                  controller:
+                                                      _model.checkboxGroupValueController5 ??=
+                                                          FormFieldController<
+                                                            List<String>
+                                                          >([]),
                                                   activeColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
+                                                        context,
+                                                      ).secondaryBackground,
                                                   checkColor: Color(0xFF3980D2),
                                                   checkboxBorderColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                        context,
+                                                      ).secondaryBackground,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                  unselectedTextStyle:
-                                                      TextStyle(
+                                                  unselectedTextStyle: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                      context,
+                                                    ).secondaryBackground,
                                                     fontSize: 16.0,
                                                   ),
-                                                  initialized: _model
+                                                  initialized:
+                                                      _model
                                                           .checkboxGroupValues5 !=
                                                       null,
                                                 ),
                                                 FlutterFlowCheckboxGroup(
                                                   options: ['Good with kids'],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .checkboxGroupValues6 =
-                                                          val),
-                                                  controller: _model
-                                                          .checkboxGroupValueController6 ??=
-                                                      FormFieldController<
-                                                          List<String>>(
-                                                    [],
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.checkboxGroupValues6 =
+                                                            val,
                                                   ),
+                                                  controller:
+                                                      _model.checkboxGroupValueController6 ??=
+                                                          FormFieldController<
+                                                            List<String>
+                                                          >([]),
                                                   activeColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
+                                                        context,
+                                                      ).secondaryBackground,
                                                   checkColor: Color(0xFF3980D2),
                                                   checkboxBorderColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                        context,
+                                                      ).secondaryBackground,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                  unselectedTextStyle:
-                                                      TextStyle(
+                                                  unselectedTextStyle: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                      context,
+                                                    ).secondaryBackground,
                                                     fontSize: 16.0,
                                                   ),
-                                                  initialized: _model
+                                                  initialized:
+                                                      _model
                                                           .checkboxGroupValues6 !=
                                                       null,
                                                 ),
                                                 FlutterFlowCheckboxGroup(
                                                   options: [
-                                                    'Good with other dogs'
+                                                    'Good with other dogs',
                                                   ],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .checkboxGroupValues7 =
-                                                          val),
-                                                  controller: _model
-                                                          .checkboxGroupValueController7 ??=
-                                                      FormFieldController<
-                                                          List<String>>(
-                                                    [],
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.checkboxGroupValues7 =
+                                                            val,
                                                   ),
+                                                  controller:
+                                                      _model.checkboxGroupValueController7 ??=
+                                                          FormFieldController<
+                                                            List<String>
+                                                          >([]),
                                                   activeColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
+                                                        context,
+                                                      ).secondaryBackground,
                                                   checkColor: Color(0xFF3980D2),
                                                   checkboxBorderColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                        context,
+                                                      ).secondaryBackground,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                  unselectedTextStyle:
-                                                      TextStyle(
+                                                  unselectedTextStyle: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                      context,
+                                                    ).secondaryBackground,
                                                     fontSize: 16.0,
                                                   ),
-                                                  initialized: _model
+                                                  initialized:
+                                                      _model
                                                           .checkboxGroupValues7 !=
                                                       null,
                                                 ),
                                                 FlutterFlowCheckboxGroup(
                                                   options: ['Good with cats'],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .checkboxGroupValues8 =
-                                                          val),
-                                                  controller: _model
-                                                          .checkboxGroupValueController8 ??=
-                                                      FormFieldController<
-                                                          List<String>>(
-                                                    [],
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.checkboxGroupValues8 =
+                                                            val,
                                                   ),
+                                                  controller:
+                                                      _model.checkboxGroupValueController8 ??=
+                                                          FormFieldController<
+                                                            List<String>
+                                                          >([]),
                                                   activeColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
+                                                        context,
+                                                      ).secondaryBackground,
                                                   checkColor: Color(0xFF3980D2),
                                                   checkboxBorderColor:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                        context,
+                                                      ).secondaryBackground,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
-                                                  unselectedTextStyle:
-                                                      TextStyle(
+                                                  unselectedTextStyle: TextStyle(
                                                     color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
+                                                      context,
+                                                    ).secondaryBackground,
                                                     fontSize: 16.0,
                                                   ),
-                                                  initialized: _model
+                                                  initialized:
+                                                      _model
                                                           .checkboxGroupValues8 !=
                                                       null,
                                                 ),
@@ -1302,29 +1381,32 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                               children: [
                                                 Text(
                                                   'Bio',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .titleMedium
-                                                      .override(
+                                                  style:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).titleMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .titleMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                              context,
+                                                            ).secondaryBackground,
                                                         fontSize: 18.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .titleMedium
                                                                 .fontStyle,
                                                       ),
@@ -1342,109 +1424,124 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                   decoration: InputDecoration(
                                                     hintText:
                                                         'Tell potential adopters about this dog\'s personality, energy level, favorite activities, and what kind of home would be best...',
-                                                    hintStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          font:
-                                                              GoogleFonts.inter(
+                                                    hintStyle:
+                                                        FlutterFlowTheme.of(
+                                                          context,
+                                                        ).bodyMedium.override(
+                                                          font: GoogleFonts.inter(
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             fontStyle:
                                                                 FlutterFlowTheme.of(
-                                                                        context)
+                                                                      context,
+                                                                    )
                                                                     .bodyMedium
                                                                     .fontStyle,
                                                           ),
-                                                          color:
-                                                              Color(0xFF3980D2),
+                                                          color: Color(
+                                                            0xFF3980D2,
+                                                          ),
                                                           fontSize: 14.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
                                                     enabledBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFFDFEDEC),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
-                                                    ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0xFFDFEDEC,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
                                                     focusedBorder:
                                                         OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0xFF06D5CD,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
+                                                    errorBorder: OutlineInputBorder(
                                                       borderSide: BorderSide(
-                                                        color:
-                                                            Color(0xFF06D5CD),
+                                                        color: Color(
+                                                          0x00000000,
+                                                        ),
                                                         width: 1.0,
                                                       ),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              16.0),
-                                                    ),
-                                                    errorBorder:
-                                                        OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
+                                                            16.0,
+                                                          ),
                                                     ),
                                                     focusedErrorBorder:
                                                         OutlineInputBorder(
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Color(0x00000000),
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16.0),
-                                                    ),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                color: Color(
+                                                                  0x00000000,
+                                                                ),
+                                                                width: 1.0,
+                                                              ),
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                16.0,
+                                                              ),
+                                                        ),
                                                     filled: true,
                                                     fillColor: Colors.white,
                                                     contentPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                16.0,
-                                                                12.0,
-                                                                16.0,
-                                                                12.0),
+                                                        EdgeInsetsDirectional.fromSTEB(
+                                                          16.0,
+                                                          12.0,
+                                                          16.0,
+                                                          12.0,
+                                                        ),
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
+                                                  style:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            Color(0xFF101518),
+                                                        color: Color(
+                                                          0xFF101518,
+                                                        ),
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
@@ -1456,67 +1553,73 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                       .asValidator(context),
                                                   inputFormatters: [
                                                     if (!isAndroid && !isiOS)
-                                                      TextInputFormatter
-                                                          .withFunction(
-                                                              (oldValue,
-                                                                  newValue) {
+                                                      TextInputFormatter.withFunction((
+                                                        oldValue,
+                                                        newValue,
+                                                      ) {
                                                         return TextEditingValue(
                                                           selection: newValue
                                                               .selection,
                                                           text: newValue.text
                                                               .toCapitalization(
-                                                                  TextCapitalization
-                                                                      .sentences),
+                                                                TextCapitalization
+                                                                    .sentences,
+                                                              ),
                                                         );
                                                       }),
                                                   ],
                                                 ),
                                                 FlutterFlowDropDown<String>(
-                                                  controller: _model
-                                                          .energyLevelValueController ??=
-                                                      FormFieldController<
-                                                          String>(
-                                                    _model.energyLevelValue ??=
-                                                        '',
-                                                  ),
+                                                  controller:
+                                                      _model.energyLevelValueController ??=
+                                                          FormFieldController<
+                                                            String
+                                                          >(
+                                                            _model.energyLevelValue ??=
+                                                                '',
+                                                          ),
                                                   options: List<String>.from([
                                                     'Low',
                                                     'Medium',
-                                                    'High'
+                                                    'High',
                                                   ]),
                                                   optionLabels: [
                                                     'Low - Calm and relaxed',
                                                     'Medium - Moderate activity',
-                                                    'High - Very active and playful'
+                                                    'High - Very active and playful',
                                                   ],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                              .energyLevelValue =
-                                                          val),
+                                                  onChanged: (val) => safeSetState(
+                                                    () =>
+                                                        _model.energyLevelValue =
+                                                            val,
+                                                  ),
                                                   width: double.infinity,
                                                   height: 50.0,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            Color(0xFF3980D2),
+                                                        color: Color(
+                                                          0xFF3980D2,
+                                                        ),
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
@@ -1529,63 +1632,75 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                   ),
                                                   fillColor: Colors.white,
                                                   elevation: 0.0,
-                                                  borderColor:
-                                                      Color(0xFFDFEDEC),
+                                                  borderColor: Color(
+                                                    0xFFDFEDEC,
+                                                  ),
                                                   borderWidth: 1.0,
                                                   borderRadius: 16.0,
-                                                  margin: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          16.0, 0.0, 16.0, 0.0),
+                                                  margin:
+                                                      EdgeInsetsDirectional.fromSTEB(
+                                                        16.0,
+                                                        0.0,
+                                                        16.0,
+                                                        0.0,
+                                                      ),
                                                   hidesUnderline: true,
                                                   isSearchable: false,
                                                   isMultiSelect: false,
                                                 ),
                                                 FlutterFlowDropDown<String>(
-                                                  controller: _model
-                                                          .sizeValueController ??=
-                                                      FormFieldController<
-                                                          String>(
-                                                    _model.sizeValue ??= '',
-                                                  ),
+                                                  controller:
+                                                      _model.sizeValueController ??=
+                                                          FormFieldController<
+                                                            String
+                                                          >(
+                                                            _model.sizeValue ??=
+                                                                '',
+                                                          ),
                                                   options: List<String>.from([
                                                     'Small',
                                                     'Medium',
                                                     'Large',
-                                                    'Extra Large'
+                                                    'Extra Large',
                                                   ]),
                                                   optionLabels: [
                                                     'Small (under 25 lbs)',
                                                     'Medium (25-60 lbs)',
                                                     'Large (60-100 lbs)',
-                                                    'Extra Large (over 100 lbs)'
+                                                    'Extra Large (over 100 lbs)',
                                                   ],
                                                   onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                          .sizeValue = val),
+                                                      safeSetState(
+                                                        () => _model.sizeValue =
+                                                            val,
+                                                      ),
                                                   width: double.infinity,
                                                   height: 50.0,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                        context,
+                                                      ).bodyMedium.override(
                                                         font: GoogleFonts.inter(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontStyle:
                                                               FlutterFlowTheme.of(
-                                                                      context)
+                                                                    context,
+                                                                  )
                                                                   .bodyMedium
                                                                   .fontStyle,
                                                         ),
-                                                        color:
-                                                            Color(0xFF3980D2),
+                                                        color: Color(
+                                                          0xFF3980D2,
+                                                        ),
                                                         fontSize: 16.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
                                                         fontStyle:
                                                             FlutterFlowTheme.of(
-                                                                    context)
+                                                                  context,
+                                                                )
                                                                 .bodyMedium
                                                                 .fontStyle,
                                                       ),
@@ -1598,13 +1713,18 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                   ),
                                                   fillColor: Colors.white,
                                                   elevation: 0.0,
-                                                  borderColor:
-                                                      Color(0xFFDFEDEC),
+                                                  borderColor: Color(
+                                                    0xFFDFEDEC,
+                                                  ),
                                                   borderWidth: 1.0,
                                                   borderRadius: 16.0,
-                                                  margin: EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          16.0, 0.0, 16.0, 0.0),
+                                                  margin:
+                                                      EdgeInsetsDirectional.fromSTEB(
+                                                        16.0,
+                                                        0.0,
+                                                        16.0,
+                                                        0.0,
+                                                      ),
                                                   hidesUnderline: true,
                                                   isSearchable: false,
                                                   isMultiSelect: false,
@@ -1616,7 +1736,11 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                       ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 60.0, 0.0, 0.0),
+                                          10.0,
+                                          60.0,
+                                          0.0,
+                                          0.0,
+                                        ),
                                         child: FFButtonWidget(
                                           onPressed: () async {
                                             context.pushNamed(
@@ -1639,45 +1763,51 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                             height: 40.0,
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    16.0, 0.0, 16.0, 0.0),
+                                                  16.0,
+                                                  0.0,
+                                                  16.0,
+                                                  0.0,
+                                                ),
                                             iconPadding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    5.0, 0.0, 0.0, 0.0),
+                                                  5.0,
+                                                  0.0,
+                                                  0.0,
+                                                  0.0,
+                                                ),
                                             iconColor: Color(0xFF3980D2),
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            textStyle: FlutterFlowTheme.of(
-                                                    context)
-                                                .titleSmall
-                                                .override(
+                                            color: FlutterFlowTheme.of(
+                                              context,
+                                            ).secondaryBackground,
+                                            textStyle:
+                                                FlutterFlowTheme.of(
+                                                  context,
+                                                ).titleSmall.override(
                                                   font: GoogleFonts.interTight(
                                                     fontWeight:
                                                         FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleSmall
-                                                            .fontWeight,
+                                                          context,
+                                                        ).titleSmall.fontWeight,
                                                     fontStyle:
                                                         FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleSmall
-                                                            .fontStyle,
+                                                          context,
+                                                        ).titleSmall.fontStyle,
                                                   ),
                                                   color: Colors.white,
                                                   letterSpacing: 0.0,
                                                   fontWeight:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
-                                                          .fontWeight,
+                                                        context,
+                                                      ).titleSmall.fontWeight,
                                                   fontStyle:
                                                       FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
-                                                          .fontStyle,
+                                                        context,
+                                                      ).titleSmall.fontStyle,
                                                 ),
                                             elevation: 0.0,
-                                            borderRadius:
-                                                BorderRadius.circular(24.0),
+                                            borderRadius: BorderRadius.circular(
+                                              24.0,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1687,7 +1817,11 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                               ),
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 16.0, 16.0, 32.0),
+                                  16.0,
+                                  16.0,
+                                  16.0,
+                                  32.0,
+                                ),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: Color(0x00F5FBFB),
@@ -1698,229 +1832,198 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Expanded(
-                                          child:
-                                              StreamBuilder<List<DogsRecord>>(
-                                            stream: queryDogsRecord(
-                                              singleRecord: true,
-                                            ),
-                                            builder: (context, snapshot) {
-                                              // Customize what your widget looks like when it's loading.
-                                              if (!snapshot.hasData) {
-                                                return Center(
-                                                  child: SizedBox(
-                                                    width: 50.0,
-                                                    height: 50.0,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      valueColor:
-                                                          AlwaysStoppedAnimation<
-                                                              Color>(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primary,
-                                                      ),
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onDoubleTap: () async {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Dog Added Successfully ',
+                                                    style: TextStyle(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                            context,
+                                                          ).secondaryBackground,
                                                     ),
                                                   ),
-                                                );
-                                              }
-                                              List<DogsRecord>
-                                                  buttonDogsRecordList =
-                                                  snapshot.data!;
-                                              // Return an empty Container when the item does not exist.
-                                              if (snapshot.data!.isEmpty) {
-                                                return Container();
-                                              }
-                                              final buttonDogsRecord =
-                                                  buttonDogsRecordList
-                                                          .isNotEmpty
-                                                      ? buttonDogsRecordList
-                                                          .first
-                                                      : null;
-
-                                              return InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onDoubleTap: () async {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        'Dog Added Successfully ',
-                                                        style: TextStyle(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                        ),
-                                                      ),
-                                                      duration: Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          Color(0xFF3980D2),
-                                                    ),
-                                                  );
-                                                },
-                                                child: FFButtonWidget(
-                                                  onPressed: () async {
-                                                    var dogsRecordReference =
-                                                        DogsRecord.collection
-                                                            .doc(
-                                                                buttonDogsRecord!
-                                                                    .reference
-                                                                    .id);
-                                                    await dogsRecordReference
-                                                        .set(
-                                                            createDogsRecordData(
-                                                      name: _model
-                                                          .dogsnameTextController
-                                                          .text,
-                                                      age: int.tryParse(_model
-                                                          .ageTextController
-                                                          .text),
-                                                      breed: _model
-                                                          .breedTextController
-                                                          .text,
-                                                      gender:
-                                                          _model.genderValue,
-                                                      weight: double.tryParse(
-                                                          _model
-                                                              .weightTextController
-                                                              .text),
-                                                      bio: _model
-                                                          .bioTextController
-                                                          .text,
-                                                      energylevel: _model
-                                                          .energyLevelValue,
-                                                      dogId:
-                                                          buttonDogsRecord.uid,
-                                                      species: '',
-                                                      primaryPhoto: '',
-                                                      color: '',
-                                                      goodWithDogs:
-                                                          buttonDogsRecord
-                                                              .goodWithDogs,
-                                                      goodWithCats:
-                                                          buttonDogsRecord
-                                                              .goodWithCats,
-                                                      goodWithKids:
-                                                          buttonDogsRecord
-                                                              .goodWithKids,
-                                                    ));
-                                                    _model.createDogResult =
-                                                        DogsRecord.getDocumentFromData(
-                                                            createDogsRecordData(
-                                                              name: _model
-                                                                  .dogsnameTextController
-                                                                  .text,
-                                                              age: int.tryParse(
-                                                                  _model
-                                                                      .ageTextController
-                                                                      .text),
-                                                              breed: _model
-                                                                  .breedTextController
-                                                                  .text,
-                                                              gender: _model
-                                                                  .genderValue,
-                                                              weight: double
-                                                                  .tryParse(_model
-                                                                      .weightTextController
-                                                                      .text),
-                                                              bio: _model
-                                                                  .bioTextController
-                                                                  .text,
-                                                              energylevel: _model
-                                                                  .energyLevelValue,
-                                                              dogId:
-                                                                  buttonDogsRecord
-                                                                      .uid,
-                                                              species: '',
-                                                              primaryPhoto: '',
-                                                              color: '',
-                                                              goodWithDogs:
-                                                                  buttonDogsRecord
-                                                                      .goodWithDogs,
-                                                              goodWithCats:
-                                                                  buttonDogsRecord
-                                                                      .goodWithCats,
-                                                              goodWithKids:
-                                                                  buttonDogsRecord
-                                                                      .goodWithKids,
-                                                            ),
-                                                            dogsRecordReference);
-
-                                                    context.pushNamed(
-                                                      NewDogProfileImagesWidget
-                                                          .routeName,
-                                                      queryParameters: {
-                                                        'rescueRef':
-                                                            serializeParam(
-                                                          currentUserReference,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                        'dogRef':
-                                                            serializeParam(
-                                                          buttonDogsRecord
-                                                              .reference,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                      }.withoutNulls,
-                                                    );
-
-                                                    safeSetState(() {});
-                                                  },
-                                                  text: 'Next',
-                                                  options: FFButtonOptions(
-                                                    height: 50.0,
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(24.0, 0.0,
-                                                                24.0, 0.0),
-                                                    iconPadding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 0.0),
-                                                    color: Color(0xFF3980D2),
-                                                    textStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .titleMedium
-                                                        .override(
-                                                          font:
-                                                              GoogleFonts.inter(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleMedium
-                                                                    .fontStyle,
-                                                          ),
-                                                          color: Colors.white,
-                                                          fontSize: 18.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                    elevation: 4.0,
-                                                    borderSide: BorderSide(
-                                                      color: Color(0xFF3980D2),
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
+                                                  duration: Duration(
+                                                    milliseconds: 4000,
+                                                  ),
+                                                  backgroundColor: Color(
+                                                    0xFF3980D2,
                                                   ),
                                                 ),
                                               );
                                             },
+                                            child: FFButtonWidget(
+                                              onPressed: () async {
+                                                var dogsRecordReference =
+                                                    DogsRecord.collection.doc();
+                                                await dogsRecordReference.set(
+                                                  createDogsRecordData(
+                                                    name: _model
+                                                        .dogsnameTextController
+                                                        .text,
+                                                    age: int.tryParse(
+                                                      _model
+                                                          .ageTextController
+                                                          .text,
+                                                    ),
+                                                    breed: _model
+                                                        .breedTextController
+                                                        .text,
+                                                    gender: _model.genderValue,
+                                                    weight: double.tryParse(
+                                                      _model
+                                                          .weightTextController
+                                                          .text,
+                                                    ),
+                                                    bio: _model
+                                                        .bioTextController
+                                                        .text,
+                                                    energylevel:
+                                                        _model.energyLevelValue,
+                                                    size: _model.sizeValue,
+                                                    dogId:
+                                                        dogsRecordReference.id,
+                                                    species: '',
+                                                    primaryPhoto: '',
+                                                    color: '',
+                                                    adoptionStatus: 'available',
+                                                    visibility: 'public',
+                                                    organizationID:
+                                                        currentUserUid,
+                                                    uid: currentUserUid,
+                                                    createdAt:
+                                                        getCurrentTimestamp,
+                                                    updatedAt:
+                                                        getCurrentTimestamp,
+                                                  ),
+                                                );
+                                                _model.createDogResult =
+                                                    DogsRecord.getDocumentFromData(
+                                                      createDogsRecordData(
+                                                        name: _model
+                                                            .dogsnameTextController
+                                                            .text,
+                                                        age: int.tryParse(
+                                                          _model
+                                                              .ageTextController
+                                                              .text,
+                                                        ),
+                                                        breed: _model
+                                                            .breedTextController
+                                                            .text,
+                                                        gender:
+                                                            _model.genderValue,
+                                                        weight: double.tryParse(
+                                                          _model
+                                                              .weightTextController
+                                                              .text,
+                                                        ),
+                                                        bio: _model
+                                                            .bioTextController
+                                                            .text,
+                                                        energylevel: _model
+                                                            .energyLevelValue,
+                                                        size: _model.sizeValue,
+                                                        dogId:
+                                                            dogsRecordReference
+                                                                .id,
+                                                        species: '',
+                                                        primaryPhoto: '',
+                                                        color: '',
+                                                        adoptionStatus:
+                                                            'available',
+                                                        visibility: 'public',
+                                                        organizationID:
+                                                            currentUserUid,
+                                                        uid: currentUserUid,
+                                                        createdAt:
+                                                            getCurrentTimestamp,
+                                                        updatedAt:
+                                                            getCurrentTimestamp,
+                                                      ),
+                                                      dogsRecordReference,
+                                                    );
+
+                                                context.pushNamed(
+                                                  NewDogProfileImagesWidget
+                                                      .routeName,
+                                                  queryParameters: {
+                                                    'rescueRef': serializeParam(
+                                                      currentUserReference,
+                                                      ParamType
+                                                          .DocumentReference,
+                                                    ),
+                                                    'dogRef': serializeParam(
+                                                      dogsRecordReference,
+                                                      ParamType
+                                                          .DocumentReference,
+                                                    ),
+                                                  }.withoutNulls,
+                                                );
+
+                                                safeSetState(() {});
+                                              },
+                                              text: 'Next',
+                                              options: FFButtonOptions(
+                                                height: 50.0,
+                                                padding:
+                                                    EdgeInsetsDirectional.fromSTEB(
+                                                      24.0,
+                                                      0.0,
+                                                      24.0,
+                                                      0.0,
+                                                    ),
+                                                iconPadding:
+                                                    EdgeInsetsDirectional.fromSTEB(
+                                                      0.0,
+                                                      0.0,
+                                                      0.0,
+                                                      0.0,
+                                                    ),
+                                                color: Color(0xFF3980D2),
+                                                textStyle:
+                                                    FlutterFlowTheme.of(
+                                                      context,
+                                                    ).titleMedium.override(
+                                                      font: GoogleFonts.inter(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                  context,
+                                                                )
+                                                                .titleMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color: Colors.white,
+                                                      fontSize: 18.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                context,
+                                                              )
+                                                              .titleMedium
+                                                              .fontStyle,
+                                                    ),
+                                                elevation: 4.0,
+                                                borderSide: BorderSide(
+                                                  color: Color(0xFF3980D2),
+                                                  width: 2.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ].divide(SizedBox(width: 12.0)),
