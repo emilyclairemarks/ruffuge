@@ -70,10 +70,8 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<UsersRecord>>(
-      stream: queryUsersRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<UsersRecord>(
+      stream: UsersRecord.getDocument(widget.userRef ?? currentUserReference!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -92,14 +90,7 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
             ),
           );
         }
-        List<UsersRecord> newDogProfileUsersRecordList = snapshot.data!;
-        // Return an empty Container when the item does not exist.
-        if (snapshot.data!.isEmpty) {
-          return Container();
-        }
-        final newDogProfileUsersRecord = newDogProfileUsersRecordList.isNotEmpty
-            ? newDogProfileUsersRecordList.first
-            : null;
+        final newDogProfileUsersRecord = snapshot.data!;
 
         return GestureDetector(
           onTap: () {
@@ -1698,46 +1689,7 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Expanded(
-                                          child:
-                                              StreamBuilder<List<DogsRecord>>(
-                                            stream: queryDogsRecord(
-                                              singleRecord: true,
-                                            ),
-                                            builder: (context, snapshot) {
-                                              // Customize what your widget looks like when it's loading.
-                                              if (!snapshot.hasData) {
-                                                return Center(
-                                                  child: SizedBox(
-                                                    width: 50.0,
-                                                    height: 50.0,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      valueColor:
-                                                          AlwaysStoppedAnimation<
-                                                              Color>(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primary,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                              List<DogsRecord>
-                                                  buttonDogsRecordList =
-                                                  snapshot.data!;
-                                              // Return an empty Container when the item does not exist.
-                                              if (snapshot.data!.isEmpty) {
-                                                return Container();
-                                              }
-                                              final buttonDogsRecord =
-                                                  buttonDogsRecordList
-                                                          .isNotEmpty
-                                                      ? buttonDogsRecordList
-                                                          .first
-                                                      : null;
-
-                                              return InkWell(
+                                          child: InkWell(
                                                 splashColor: Colors.transparent,
                                                 focusColor: Colors.transparent,
                                                 hoverColor: Colors.transparent,
@@ -1766,10 +1718,7 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                   onPressed: () async {
                                                     var dogsRecordReference =
                                                         DogsRecord.collection
-                                                            .doc(
-                                                                buttonDogsRecord!
-                                                                    .reference
-                                                                    .id);
+                                                            .doc();
                                                     await dogsRecordReference
                                                         .set(
                                                             createDogsRecordData(
@@ -1793,8 +1742,10 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                           .text,
                                                       energylevel: _model
                                                           .energyLevelValue,
+                                                      size: _model.sizeValue,
                                                       dogId:
-                                                          buttonDogsRecord.uid,
+                                                          dogsRecordReference
+                                                              .id,
                                                       species: '',
                                                       primaryPhoto: '',
                                                       color: '',
@@ -1804,15 +1755,10 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                       organizationID:
                                                           currentUserUid,
                                                       uid: currentUserUid,
-                                                      goodWithDogs:
-                                                          buttonDogsRecord
-                                                              .goodWithDogs,
-                                                      goodWithCats:
-                                                          buttonDogsRecord
-                                                              .goodWithCats,
-                                                      goodWithKids:
-                                                          buttonDogsRecord
-                                                              .goodWithKids,
+                                                      createdAt:
+                                                          getCurrentTimestamp,
+                                                      updatedAt:
+                                                          getCurrentTimestamp,
                                                     ));
                                                     _model.createDogResult =
                                                         DogsRecord.getDocumentFromData(
@@ -1838,9 +1784,11 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                                   .text,
                                                               energylevel: _model
                                                                   .energyLevelValue,
+                                                              size: _model
+                                                                  .sizeValue,
                                                               dogId:
-                                                                  buttonDogsRecord
-                                                                      .uid,
+                                                                  dogsRecordReference
+                                                                      .id,
                                                               species: '',
                                                               primaryPhoto: '',
                                                               color: '',
@@ -1852,15 +1800,10 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                                   currentUserUid,
                                                               uid:
                                                                   currentUserUid,
-                                                              goodWithDogs:
-                                                                  buttonDogsRecord
-                                                                      .goodWithDogs,
-                                                              goodWithCats:
-                                                                  buttonDogsRecord
-                                                                      .goodWithCats,
-                                                              goodWithKids:
-                                                                  buttonDogsRecord
-                                                                      .goodWithKids,
+                                                              createdAt:
+                                                                  getCurrentTimestamp,
+                                                              updatedAt:
+                                                                  getCurrentTimestamp,
                                                             ),
                                                             dogsRecordReference);
 
@@ -1876,8 +1819,7 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                         ),
                                                         'dogRef':
                                                             serializeParam(
-                                                          buttonDogsRecord
-                                                              .reference,
+                                                          dogsRecordReference,
                                                           ParamType
                                                               .DocumentReference,
                                                         ),
@@ -1933,9 +1875,7 @@ class _NewDogProfileWidgetState extends State<NewDogProfileWidget> {
                                                             12.0),
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                          ),
+                                              ),
                                         ),
                                       ].divide(SizedBox(width: 12.0)),
                                     ),
