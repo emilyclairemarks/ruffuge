@@ -15,8 +15,6 @@ export '/pages/user_account_pages/rescue_shelter_account/create_new_dog/new_dog_
     show NewDogProfileImagesWidget;
 export '/pages/dogs/dogs_available/dogs_available_widget.dart'
     show DogsAvailableWidget;
-export '/pages/dogs/adopter_dog_feed/adopter_dog_feed_widget.dart'
-    show AdopterDogFeedWidget;
 export '/pages/user_account_pages/rescue_shelter_account/rescue_calendar/rescue_calendar_widget.dart'
     show RescueCalendarWidget;
 export '/pages/user_account_pages/rescue_shelter_account/rescue_dashboard/rescue_dashboard_widget.dart'
@@ -64,3 +62,5 @@ export '/pages/dogs/available_dog_list_copy/available_dog_list_copy_widget.dart'
     show AvailableDogListCopyWidget;
 export '/pages/user_account_pages/individual_user_account/test_dashboard/test_dashboard_widget.dart'
     show TestDashboardWidget;
+export '/adopter_dog_feed/adopter_dog_feed_widget.dart'
+    show AdopterDogFeedWidget;

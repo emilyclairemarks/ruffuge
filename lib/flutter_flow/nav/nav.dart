@@ -2,11 +2,19 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
+import '/main.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'serialization_util.dart';
 
 import '/index.dart';
 
@@ -222,12 +230,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: AdopterDogFeedWidget.routeName,
-          path: AdopterDogFeedWidget.routePath,
-          requireAuth: true,
-          builder: (context, params) => AdopterDogFeedWidget(),
-        ),
-        FFRoute(
           name: RescueCalendarWidget.routeName,
           path: RescueCalendarWidget.routePath,
           builder: (context, params) => RescueCalendarWidget(),
@@ -379,6 +381,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: TestDashboardWidget.routeName,
           path: TestDashboardWidget.routePath,
           builder: (context, params) => TestDashboardWidget(),
+        ),
+        FFRoute(
+          name: AdopterDogFeedWidget.routeName,
+          path: AdopterDogFeedWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => AdopterDogFeedWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
